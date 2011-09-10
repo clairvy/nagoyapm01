@@ -1,0 +1,117 @@
+# -*- mode: org; -*-
+
+* Perl6 とは
+
+  http://slashdot.jp/~taro-nishino/journal/486178
+
+  Perl 6の長所
+
+  後方互換性を壊す引換えに、少なくても言語レベルにおいて、Perl 6は以下のように、Perl 5がサポートしなかった高度でパワーのある言語概念を多く提供する。
+
+  ・マルチメソッド
+  ・コルーチン
+  ・継続
+  ・有用なスレッド
+  ・ジャンクション
+  ・ロール
+  ・ハイパーオペレーション
+  ・マクロ
+  ・オーバーライド且つ再利用可能な文法
+  ・ガーベジコレクション
+  ・改善された外部関数インターフェース
+  ・モジュールの別名化とバージョン化
+  ・改善されたイントロスペクション
+  ・拡張且つオーバーライド可能な原始データ
+
+* Perl6 を入手する
+
+   LLEval
+   - http://colabv6.dan.co.jp/lleval.html
+
+  Perl5
+  - http://search.cpan.org/dist/perl/
+    - http://www.activestate.com/activeperl - ppm
+    - http://strawberryperl.com/ - cpan
+
+  Perl6 - Rakudo
+  - http://github.com/rakudo/star/downloads
+    (Windows 版もあるらしい)
+    - http://perl6.org/compilers/features
+      実装対応表
+
+  curl -LO https://github.com/downloads/rakudo/star/rakudo-star-2011.07.tar.gz
+  tar xf rakudo-star-2011.07.tar.gz
+  perl Configure.pl --gen-parrot
+  make
+  make install
+  ./perl6 -v
+  
+  This is Rakudo Perl 6, version 2011.07 built on parrot 3.6.0 0
+
+  Copyright 2008-2011, The Perl Foundation
+
+  install ディレクトリの方には*.pir ファイルしか含まれていない様子
+  (install/lib/parrot/3.6.0/languages/perl6/lib/)
+  ソースを読むなら rakudo/src 配下がよさそう
+
+* 基礎知識
+
+  環境 / スクリプト / シェル / プロセス / OS
+  ファイル / ディレクトリ階層
+
+  - OS : Windows, Linux, MacOSX
+  - ディレクトリ階層 : /usr/bin/perl, D:\Perl\bin\Perl.exe
+    => エクスプローラで見たりするもの
+  - プロセス : 実行可能ファイルをメモリにロードし，CPU が動かしている状態
+    => ps, タスクマネージャ で確認できる
+  - シェル : bash, cmd.com
+    => CUI (キャラクタユーザインターフェイス)
+    <=> GUI
+    インタラクティブとも言う
+    プロセス毎に環境変数を持つ
+    => 大抵は初期化ファイルから読み込む($HOME/.bashrc．レジストリ)
+  - パス = $PATH，%PATH% : 環境変数の一種．
+    実行可能ファイルを探すための位置を指定する
+    ex. $ echo $PATH
+    > PATH
+  - Perl スクリプト : 実行可能ファイルでPerl プログラムが書いてある．
+    1行目は？
+    #!/usr/bin/perl     => 絶対パス
+    #!perl              => インストール前？Windows で拡張子に実行可能ファイルが割り振られている
+    #!/usr/bin/env perl => 環境変数パスから探す．
+
+    それ以外にも，
+    $ /path_to/perl script.pl
+    のようにPerl のパスを指定(/path_to/perl)してスクリプトを実行することもできる
+
+  - ライブラリパス = @INC
+    Perl スクリプトが，Perl のライブラリを探す方法．
+    $ perl -V
+    (中略)
+    @INC:
+      /Users/s_nag/perl5/perlbrew/perls/perl-5.14.1/lib/site_perl/5.14.1/darwin-2level
+      /Users/s_nag/perl5/perlbrew/perls/perl-5.14.1/lib/site_perl/5.14.1
+      /Users/s_nag/perl5/perlbrew/perls/perl-5.14.1/lib/5.14.1/darwin-2level
+      /Users/s_nag/perl5/perlbrew/perls/perl-5.14.1/lib/5.14.1
+      .
+
+    ロードしたファイルのパス = %INC
+    $ perl -mstrict -le 'while(($a,$b)=each%INC){print$a." ".$b}'
+    strict.pm /Users/s_nag/perl5/perlbrew/perls/perl-5.14.1/lib/5.14.1/strict.pm
+
+  - 言いたいこと
+    ファイルとプロセスは違う
+    スクリプト(*.pl, *.cgi) は，perl のプロセス上で動いている
+    ファイルの探し方
+
+* 周辺のコマンド
+  
+** 書いてみた
+   input.txt
+   output.txt
+
+   <W>,<H>,<Game>
+
+   <Hands>
+
+   
