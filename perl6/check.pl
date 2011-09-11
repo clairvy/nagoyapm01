@@ -60,44 +60,39 @@ sub move {
         my $new_pos = $pos + $step;
         unless ($valid->($new_pos)) {
 #            print("invalid new_pos: " . $new_pos, "\n");
-            return 'not ok';
+            return;
         }
         $swap->($init, $pos, $new_pos);
     };
-    my $nextAll = {
-                 U => sub {
-                     my ($init) = @_;
-                     my $step = -$w;
-                     my $valid = sub {!($_[0] < 0)};
-                     $next->($init, $step, $valid);
-                 },
-                 D => sub {
-                     my ($init) = @_;
-                     my $step = +$w;
-                     my $valid = sub {$_[0] < length($init)};
-                     $next->($init, $step, $valid);
-                 },
-                 R => sub {
-                     my ($init) = @_;
-                     my $step = +1;
-                     my $valid = sub {!($_[0] % $w == 0)};
-                     $next->($init, $step, $valid);
-                 },
-                 L => sub {
-                     my ($init) = @_;
-                     my $step = -1;
-                     my $valid = sub {!(($_[0] % $w) == ($w - 1))};
-                     $next->($init, $step, $valid);
-                 },
-                };
-    if (exists($nextAll->{$hand})) {
-        my $next_board = $nextAll->{$hand}->($init);
-        if ($next_board) {
-#            print print_board($w, $h, $next_board), "\n";
-            move($w, $h, $next_board, $last);
+    my $nextAll = sub {
+        my ($init, $hand) = @_;
+        if ('U' eq $hand) {
+            my $step = -$w;
+            my $valid = sub {!($_[0] < 0)};
+            $next->($init, $step, $valid);
+        } elsif ('D' eq $hand) {
+            my $step = +$w;
+            my $valid = sub {$_[0] < length($init)};
+            $next->($init, $step, $valid);
+        } elsif ('R' eq $hand) {
+            my $step = +1;
+            my $valid = sub {!($_[0] % $w == 0)};
+            $next->($init, $step, $valid);
+        } elsif ('L' eq $hand) {
+            my $step = -1;
+            my $valid = sub {!(($_[0] % $w) == ($w - 1))};
+            $next->($init, $step, $valid);
+        } else {
+            print('unknown hand: ' . $hand);
+            return;
         }
+    };
+    my $next_board = $nextAll->($init, $hand);
+    unless ($next_board) {
+        return 'not ok';
     } else {
-        die 'unknow hand : ' . $hand;
+#            print print_board($w, $h, $next_board), "\n";
+        return move($w, $h, $next_board, $last);
     }
 }
 
