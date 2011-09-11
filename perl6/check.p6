@@ -7,10 +7,11 @@ sub parse_problem($fname) {
     my @lines = $fh.lines;
     $fh.close;
     @lines.splice(0, 2);
+    @lines = @lines.map: {$(.split(/\,/))};
     @lines;
 }
 
-sub parse_result($fname) {
+sub parse_answer($fname) {
     my $fh = open $fname;
     my @lines = $fh.lines;
     $fh.close;
@@ -18,15 +19,15 @@ sub parse_result($fname) {
 }
 
 # main 関数
-sub MAIN (Str :$problem = "input.txt", Str :$result = "output.txt") {
-    my @d_p = parse_problem $problem;
-    my @d_r = parse_result $result;
-    for 0 .. @d_p - 1 -> $i {
-        my @buf = $i + 1, @d_p[$i];
-        if 0 == @d_r[$i].chars {
+sub MAIN (Str :$problem = "input.txt", Str :$answer = "output.txt") {
+    my @problem = parse_problem $problem;
+    my @answer = parse_answer $answer;
+    for 0 .. @problem - 1 -> $i {
+        my @buf = $i + 1, @problem[$i].join(',');
+        if 0 == @answer[$i].chars {
             @buf.push("skip");
         } else {
-            @buf.push(@d_r[$i]);
+            @buf.push(@answer[$i]);
         }
         say "@buf[]";
     }

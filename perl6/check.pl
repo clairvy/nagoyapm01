@@ -3,16 +3,17 @@
 use strict;
 use warnings;
 
-sub parse_input {
+sub parse_problem {
     my ($fname) = @_;
     open my $fh, '<', $fname;
     chomp(my @lines = <$fh>);
-    splice(@lines, 0, 2);
     close $fh;
+    splice(@lines, 0, 2);
+    @lines = map {[split /,/]} @lines;
     \@lines;
 }
 
-sub parse_output {
+sub parse_answer {
     my ($fname) = @_;
     open my $fh, '<', $fname;
     chomp(my @lines = <$fh>);
@@ -21,14 +22,14 @@ sub parse_output {
 }
 
 sub main {
-    my $d_i = parse_input "input.txt";
-    my $d_o = parse_output "output.txt";
-    for my $i (0 .. @$d_i - 1) {
-        my @buf = ($i + 1, $d_i->[$i]);
-        if (length($d_o->[$i]) == 0) {
+    my $problem = parse_problem "input.txt";
+    my $answer = parse_answer "output.txt";
+    for my $i (0 .. @$problem - 1) {
+        my @buf = ($i + 1, join(',', @{$problem->[$i]}));
+        if (length($answer->[$i]) == 0) {
             push(@buf, 'skip');
         } else {
-            push(@buf, $d_o->[$i]);
+            push(@buf, $answer->[$i]);
         }
         print join(' ', @buf), "\n";
     }
