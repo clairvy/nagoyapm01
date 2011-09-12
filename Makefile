@@ -11,11 +11,20 @@ JAVA_OPTS =
 MAIN = Main
 ARGS =
 PROVE = prove
+PARROT = parrot
 
-all: run6 run5 runs
+all: run6 run5 runs runp runpbc
 
 diff: $(OBJECTS)
 	$(DIFF3) $(OBJECTS)
+
+testpbc: perl6/check.pbc
+	( cd perl6 && $(PROVE) -e $(PARROT) check.pbc )
+runpbc: perl6/outpbc
+perl6/outpbc: perl6/check.pbc
+	( cd perl6 && $(TIME) $(PARROT) check.pbc > outpbc )
+perl6/check.pbc: perl6/check.pir
+	( cd perl6 && $(TIME) $(PARROT) -o check.pbc check.pir )
 
 test6:
 	( cd perl6 && $(PROVE) -e $(PERL6) check.p6 )
@@ -23,6 +32,14 @@ run: run6
 run6: perl6/out6
 perl6/out6: perl6/check.p6
 	( cd perl6 && $(TIME) $(PERL6) check.p6 > out6 )
+
+testpir:
+	( cd perl6 && $(PROVE) -e $(PARROT) check.pir )
+runp: perl6/outp
+perl6/outp: perl6/check.pir
+	( cd perl6 && $(TIME) $(PARROT) check.pir > outp )
+perl6/check.pir: perl6/check.p6
+	( cd perl6 && $(TIME) $(PERL6) --target=pir --output=check.pir check.p6 )
 
 test5:
 	( cd perl6 && $(PROVE) check.pl )
