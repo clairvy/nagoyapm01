@@ -1,5 +1,5 @@
 class Check {
-    sub parse_problem($fname) {
+    method parse_problem($fname) {
         my $fh = open $fname;
         my @lines = $fh.lines;
         $fh.close;
@@ -8,14 +8,14 @@ class Check {
         @lines;
     }
 
-    sub parse_answer($fname) {
+    method parse_answer($fname) {
         my $fh = open $fname;
         my @lines = $fh.lines;
         $fh.close;
         @lines;
     }
 
-    sub move(Int $w, Int $h, Str $init, Str $hands) {
+    method move(Int $w, Int $h, Str $init, Str $hands) {
         unless ($hands.chars > 0) {
             return 'ok';
         }
