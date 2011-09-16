@@ -42,10 +42,10 @@ perl6/check.pir: perl6/check.p6
 	( cd perl6 && $(TIME) $(PERL6) --target=pir --output=check.pir check.p6 )
 
 test5:
-	( cd perl6 && $(PROVE) check.pl )
-run5: perl6/out5
-perl6/out5: perl6/check.pl
-	( cd perl6 && $(TIME) $(PERL5) check.pl > out5 )
+	( cd perl5 && $(PROVE) check.pl )
+run5: perl5/out
+perl5/out: perl5/check.pl
+	( cd perl5 && $(TIME) $(PERL5) check.pl > out )
 
 tests:
 	( cd scala && $(PROVE) -e "$(JAVA) $(JAVA_OPTS) -cp $(CP)" $(MAIN) $(ARGS) )
