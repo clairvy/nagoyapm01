@@ -37,7 +37,7 @@ testpir:
 	( cd perl6 && env PERL6LIB=blib/lib $(PROVE) -e $(PERL6) bin/check.p6 )
 runp: perl6/outp
 perl6/outp: perl6/blib/lib/Check.pir
-	( cd perl6 && env PERL6LIB=blib/lib $(TIME) $(PERL6) check.p6 > outp )
+	( cd perl6 && env PERL6LIB=blib/lib $(TIME) $(PERL6) bin/check.p6 > outp )
 perl6/blib/lib/Check.pir: perl6/lib/Check.pm6
 	( cd perl6 && ufo )
 	( cd perl6 && make )
