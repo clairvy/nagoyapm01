@@ -87,7 +87,7 @@ class Check {
     }
 
     method check(@problem, @answer) {
-        print('1..', @problem.elems, "\n");
+        say('1..', @problem.elems);
         for 0 .. @problem - 1 -> $i {
             my @buf = $i + 1, @problem[$i].join(',');
             if 0 == @answer[$i].chars {
