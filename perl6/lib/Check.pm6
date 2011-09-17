@@ -86,9 +86,7 @@ class Check {
         }
     }
 
-    method run($problem, $answer) {
-        my @problem = self.parse_problem($problem);
-        my @answer = self.parse_answer($answer);
+    method check(@problem, @answer) {
         print('1..', @problem.elems, "\n");
         for 0 .. @problem - 1 -> $i {
             my @buf = $i + 1, @problem[$i].join(',');
@@ -101,5 +99,11 @@ class Check {
             }
             say "@buf[]";
         }
+    }
+
+    method run($problem, $answer) {
+        my @problem = self.parse_problem($problem);
+        my @answer = self.parse_answer($answer);
+        self.check(@problem, @answer);
     }
 }
