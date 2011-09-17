@@ -49,8 +49,9 @@ sub pwd {
 }
 
 {
-    is(Check.move(5, 6, "12=E4D9HIF8=GN576LOABMTPKQSR0J", "UUUURDDDLLUUULLDDRRRUUURDDLULLLDDDRRUUULLDDRRRRDDLURULDLLDRULLDRRULDLURRRRD"), 'ok', 'ok');
-    is(Check.move(5, 6, "12=E4D9HIF8=GN576LOABMTPKQSR0J", "DUUUURDDDLLUUULLDDRRRUUURDDLULLLDDDRRUUULLDDRRRRDDLURULDLLDRULLDRRULDLURRRRD"), 'not ok', 'not ok');
+    is(Check.move(3, 3, "123456780", ""), 'ok', 'ok');
+    is(Check.move(3, 3, "123456708", "R"), 'ok', 'ok');
+    is(Check.move(3, 3, "123456708", "D"), 'not ok', 'not ok');
 }
 
 done;
