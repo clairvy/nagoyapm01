@@ -26,6 +26,7 @@ This module may be used, modified, and distributed under the same terms as Perl 
 
 use 5.005;
 no warnings "recursion";
+use Getopt::Long ();
 
 our $VERSION = '1.0';
 
@@ -142,10 +143,33 @@ sub check {
 }
 
 sub main {
-    my $problem = parse_problem "input.txt";
-    my $answer = parse_answer "output.txt";
+    my $help_flag = 0;
+    my $problem_fname = "input.txt";
+    my $answer_fname = "output.txt";
+    my $result = Getopt::Long::GetOptions(
+        'help' => \$help_flag,
+        'problem=s' => \$problem_fname,
+        'answer=s' => \$answer_fname,
+    );
+    if ($help_flag) {
+        usage();
+        return 0;
+    }
+    my $problem = parse_problem $problem_fname;
+    my $answer = parse_answer $answer_fname;
     check($problem, $answer);
-    return 0
+    return 0;
+}
+
+sub usage {
+    print <<"    EOL";
+Usage:
+  \$ $0 [--problem=input.txt] [--answer=output.txt] [-h|--help]
+
+Options:
+  problem : default input.txt
+  answer  : default output.txt
+    EOL
 }
 
 1;
